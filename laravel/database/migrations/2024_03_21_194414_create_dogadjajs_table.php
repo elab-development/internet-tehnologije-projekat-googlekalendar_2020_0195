@@ -19,7 +19,8 @@ return new class extends Migration
             $table->time('vreme_od');
             $table->time('vreme_do');
             $table->string('naziv');
-            $table->text('opis')->nullable();
+            $table->text('opis');
+            $table->text('detalji');
             $table->string('status');  //['zavrseno', 'odlozeno', 'otkazano', 'u_toku', 'zakazano']
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('kategorija_id');
