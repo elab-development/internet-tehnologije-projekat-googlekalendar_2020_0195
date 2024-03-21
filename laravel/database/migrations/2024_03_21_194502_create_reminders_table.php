@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('dogadjaj_id'); // Priprema za dodavanje spoljnog ključa
+            $table->dateTime('reminder_time');
+            $table->text('note')->nullable();
             $table->timestamps();
+
+            $table->foreign('dogadjaj_id')->references('id')->on('dogadjajs')->onDelete('cascade');
         });
     }
 

@@ -9,7 +9,7 @@ class Dogadjaj extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'datum', 'vreme_od', 'vreme_do', 'naziv', 'opis', 'status', 'kategorija_id'
+        'datum', 'vreme_od', 'vreme_do', 'naziv', 'opis', 'status', 'kategorija_id','user_id'
     ];
 
     // Odnos sa User

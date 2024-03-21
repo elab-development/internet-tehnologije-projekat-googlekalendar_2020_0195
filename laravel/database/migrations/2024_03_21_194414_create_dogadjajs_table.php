@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('dogadjajs', function (Blueprint $table) {
             $table->id();
+            $table->date('datum');
+            $table->time('vreme_od');
+            $table->time('vreme_do');
+            $table->string('naziv');
+            $table->text('opis')->nullable();
+            $table->string('status');  //['zavrseno', 'odlozeno', 'otkazano', 'u_toku', 'zakazano']
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('kategorija_id');
             $table->timestamps();
         });
     }
