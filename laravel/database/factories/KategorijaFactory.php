@@ -16,8 +16,10 @@ class KategorijaFactory extends Factory
      */
     public function definition()
     {
+        $kategorije = ['posao', 'skola', 'fakultet', 'sport', 'selfcare', 'hobi', 'porodica', 'prijatelji', 'ostalo'];
+        
         return [
-            //
+            'naziv' => $this->faker->randomElement($kategorije),
         ];
     }
 }
