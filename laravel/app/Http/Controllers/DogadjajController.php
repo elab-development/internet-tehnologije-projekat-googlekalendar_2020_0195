@@ -73,4 +73,27 @@ class DogadjajController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function search(Request $request)
+    {
+        $user_id = auth()->id();
+        $query = Dogadjaj::where('user_id', $user_id);
+
+        if ($request->filled('datum')) {
+            $query->where('datum', $request->datum);
+        }
+
+        if ($request->filled('naziv')) {
+            $query->where('naziv', 'like', '%' . $request->naziv . '%');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+    
+        $dogadjaji = $query->get();
+
+        return DogadjajResource::collection($dogadjaji);
+    }
+
 }

@@ -36,3 +36,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/reminders/{id}', [ReminderController::class, 'update']);
     Route::delete('/reminders/{id}', [ReminderController::class, 'destroy']);
 });
+
+Route::middleware('auth:sanctum')->get('/dogadjaji/search', [DogadjajController::class, 'search']);
