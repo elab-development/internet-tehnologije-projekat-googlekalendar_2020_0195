@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DogadjajController;
 use App\Http\Controllers\KategorijaController;
 use Illuminate\Http\Request;
@@ -20,3 +21,6 @@ Route::apiResource('dogadjaji', DogadjajController::class);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
