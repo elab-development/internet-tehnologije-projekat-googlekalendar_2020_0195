@@ -6,12 +6,18 @@ use App\Http\Resources\DogadjajResource;
 use App\Models\Dogadjaj;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Cache;
 class DogadjajController extends Controller
 {
-    public function index()
+    public function index()  //prepravljena funkcija idex kako bi se obezbedila mogucnost kesiranja dogadjaja
     {
-        $dogadjaji = Dogadjaj::all();
+        /* remember metoda pokušava da preuzme keširane podatke koristeći ključ 'dogadjaji_cache_key'. 
+        Ako podaci nisu dostupni u kešu, izvršava se anonimna funkcija koja vraća sve događaje iz baze. 
+        Rezultat ove funkcije se kešira na 60 minuta (60*60 sekundi). */
+        $dogadjaji = Cache::remember('dogadjaji_cache_key', 60*60, function () {
+            return Dogadjaj::all();
+        });
+    
         return DogadjajResource::collection($dogadjaji);
     }
 
@@ -33,6 +39,7 @@ class DogadjajController extends Controller
         }
 
         $dogadjaj = Dogadjaj::create($validator->validated());
+        Cache::forget('dogadjaji_cache_key'); //nakon azuiranja brisanja i dodavanja dogadjaja cemo brisati kes memoriju kako bi se osvezila prilikom sledeceg ucitavanja podataka
 
         return new DogadjajResource($dogadjaj);
     }
@@ -62,7 +69,7 @@ class DogadjajController extends Controller
 
         $dogadjaj = Dogadjaj::findOrFail($id);
         $dogadjaj->update($validator->validated());
-
+        Cache::forget('dogadjaji_cache_key'); //nakon azuiranja brisanja i dodavanja dogadjaja cemo brisati kes memoriju kako bi se osvezila prilikom sledeceg ucitavanja podataka
         return new DogadjajResource($dogadjaj);
     }
 
@@ -70,6 +77,7 @@ class DogadjajController extends Controller
     {
         $dogadjaj = Dogadjaj::findOrFail($id);
         $dogadjaj->delete();
+        Cache::forget('dogadjaji_cache_key'); //nakon azuiranja brisanja i dodavanja dogadjaja cemo brisati kes memoriju kako bi se osvezila prilikom sledeceg ucitavanja podataka
 
         return response()->json(null, 204);
     }
@@ -90,7 +98,9 @@ class DogadjajController extends Controller
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
-    
+        if ($request->filled('kategorija_id')) {
+            $query->where('kategorija_id', $request->kategorija_id);
+        }
         $dogadjaji = $query->get();
 
         return DogadjajResource::collection($dogadjaji);
