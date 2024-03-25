@@ -11,11 +11,13 @@ class DogadjajController extends Controller
 {
     public function index()  //prepravljena funkcija idex kako bi se obezbedila mogucnost kesiranja dogadjaja
     {
+         
+
         /* remember metoda pokušava da preuzme keširane podatke koristeći ključ 'dogadjaji_cache_key'. 
         Ako podaci nisu dostupni u kešu, izvršava se anonimna funkcija koja vraća sve događaje iz baze. 
         Rezultat ove funkcije se kešira na 60 minuta (60*60 sekundi). */
         $dogadjaji = Cache::remember('dogadjaji_cache_key', 60*60, function () {
-            return Dogadjaj::all();
+             return Dogadjaj::where('user_id', auth()->id())->get();
         });
     
         return DogadjajResource::collection($dogadjaji);

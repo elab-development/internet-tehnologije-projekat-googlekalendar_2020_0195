@@ -17,24 +17,22 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::apiResource('kategorije', KategorijaController::class);
-Route::apiResource('dogadjaji', DogadjajController::class);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+
+Route::middleware('auth:sanctum')->apiResource('dogadjaji', DogadjajController::class);
+
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-// Nezaštićene rute
-Route::get('/reminders', [ReminderController::class, 'index']);
-Route::get('/reminders/{id}', [ReminderController::class, 'show']);
-
-// Zaštićene rute
+ 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/reminders', [ReminderController::class, 'index']);
+    Route::get('/reminders/{id}', [ReminderController::class, 'show']);
     Route::post('/reminders', [ReminderController::class, 'store']);
     Route::put('/reminders/{id}', [ReminderController::class, 'update']);
     Route::delete('/reminders/{id}', [ReminderController::class, 'destroy']);
+    Route::apiResource('kategorije', KategorijaController::class);
 });
 
 Route::middleware('auth:sanctum')->get('/dogadjaji/search', [DogadjajController::class, 'search']);

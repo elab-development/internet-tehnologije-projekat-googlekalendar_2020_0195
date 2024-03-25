@@ -11,9 +11,16 @@ class ReminderController extends Controller
 {
     public function index()
     {
-        return ReminderResource::collection(Reminder::all());
+        
+        $userId = auth()->id(); // Get the logged-in user's ID
+        
+        // Fetch all reminders related to the user's events
+        $reminders = Reminder::whereHas('dogadjaj', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+    
+        return ReminderResource::collection($reminders);
     }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
