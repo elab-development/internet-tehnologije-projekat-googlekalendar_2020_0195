@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Cache;
 class DogadjajController extends Controller
 {
     public function index()  //prepravljena funkcija idex kako bi se obezbedila mogucnost kesiranja dogadjaja
-    {
-         
-
+    { 
         /* remember metoda pokušava da preuzme keširane podatke koristeći ključ 'dogadjaji_cache_key'. 
         Ako podaci nisu dostupni u kešu, izvršava se anonimna funkcija koja vraća sve događaje iz baze. 
         Rezultat ove funkcije se kešira na 60 minuta (60*60 sekundi). */
