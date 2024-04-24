@@ -18,10 +18,10 @@ const Register = () => {
         password_confirmation: confirmPassword
       });
       console.log('Success:', response.data);
-      // Dodajte logiku za obradu uspešne registracije
+     sessionStorage.setItem("token",response.data.token)
     } catch (error) {
       console.error('Error:', error);
-      // Dodajte logiku za obradu grešaka pri registraciji
+     
     }
   };
 

@@ -14,10 +14,10 @@ const Login = () => {
         password
       });
       console.log('Success:', response.data);
-      // Dodajte logiku za obradu uspešnog prijavljivanja
+      sessionStorage.setItem("token",response.data.token)
     } catch (error) {
       console.error('Error:', error);
-      // Dodajte logiku za obradu grešaka pri prijavljivanju
+     
     }
   };
 

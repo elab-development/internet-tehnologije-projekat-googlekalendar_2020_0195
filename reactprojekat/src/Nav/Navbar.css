@@ -1,0 +1,43 @@
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f0f0; /* Prilagodite boju pozadine prema potrebi */
+  }
+  
+  .navbar .logo a {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333; /* Prilagodite boju teksta prema potrebi */
+  }
+  
+  .navbar .nav-links {
+    display: flex;
+    list-style: none;
+  }
+  
+  .navbar .nav-links li {
+    margin-right: 10px;
+  }
+  
+  .navbar .nav-links li:last-child {
+    margin-right: 0;
+  }
+  
+  .navbar .nav-links li a {
+    text-decoration: none;
+    color: #333; /* Prilagodite boju teksta prema potrebi */
+  }
+  
+  .navbar .nav-links li button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+    color: #333; /* Prilagodite boju teksta prema potrebi */
+  }
+  
