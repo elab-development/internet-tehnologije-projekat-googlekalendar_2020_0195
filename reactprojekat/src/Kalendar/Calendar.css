@@ -1,0 +1,38 @@
+.calendar {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .header {
+    display: grid;
+    grid-template-columns: 120px repeat(15, 1fr); /* 120px za prazan red, ostatak za vremenske odeljke */
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .body {
+    display: grid;
+    grid-template-columns: 120px repeat(15, 1fr); /* 120px za prazan red, ostatak za vremenske odeljke */
+  }
+  
+  .dogadjaj {
+    grid-column: span 2; /* Širina događaja - zauzima 2 kolone */
+    padding: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 2px 0;
+  }
+  
+  .vremenski-odeljak {
+    border-right: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .empty {
+    
+  }
+  
