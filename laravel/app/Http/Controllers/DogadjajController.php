@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DogadjajResource;
 use App\Models\Dogadjaj;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
 class DogadjajController extends Controller
@@ -31,16 +32,18 @@ class DogadjajController extends Controller
             'opis' => 'required|string',
             'status' => 'required|in:zavrseno,odlozeno,otkazano,u_toku,zakazano',
             'kategorija_id' => 'required|exists:kategorijas,id',
-            'user_id' => 'required|exists:users,id',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
-        $dogadjaj = Dogadjaj::create($validator->validated());
-        Cache::forget('dogadjaji_cache_key'); //nakon azuiranja brisanja i dodavanja dogadjaja cemo brisati kes memoriju kako bi se osvezila prilikom sledeceg ucitavanja podataka
-
+    
+        $user_id = Auth::id(); // Dobijanje ID trenutno ulogovanog korisnika
+        $dogadjajData = array_merge($validator->validated(), ['user_id' => $user_id]);
+        $dogadjaj = Dogadjaj::create($dogadjajData);
+    
+        Cache::forget('dogadjaji_cache_key');
+    
         return new DogadjajResource($dogadjaj);
     }
 

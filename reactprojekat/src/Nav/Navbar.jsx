@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaCalendar } from "react-icons/fa";
 import './Navbar.css';
-const Navbar = () => {
+const Navbar = ({token,setToken}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  let navigate=useNavigate();
 
-  useEffect(() => {
-    // Provera da li postoji token u sessionStorage
-    const token = sessionStorage.getItem('token');
-    setIsLoggedIn(token !== null);
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -19,11 +15,13 @@ const Navbar = () => {
       setIsLoggedIn(false);
 
       
-      await axios.post('/logout', null, {
+      await axios.post('http://127.0.0.1:8000/api/logout', null, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
       });
+      navigate('/login')
+      setToken(null)
     } catch (error) {
       console.error('Error:', error);
      
@@ -36,7 +34,7 @@ const Navbar = () => {
         <Link to="/"> <FaCalendar /></Link>
       </div>
       <ul className="nav-links">
-        {!isLoggedIn ? (
+        {!token ? (
           <>
             <li>
               <Link to="/login">Login</Link>
@@ -46,9 +44,16 @@ const Navbar = () => {
             </li>
           </>
         ) : (
+          <>
+          <li>
+            <Link to="/kalendar">Kalendar</Link>
+            </li>
+            <li>
+            <Link to="/dodaj">Kreiraj dogadjaj</Link>
+            </li>
           <li>
             <button onClick={handleLogout}>Logout</button>
-          </li>
+          </li></>
         )}
       </ul>
     </nav>

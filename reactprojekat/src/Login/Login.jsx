@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Login.css';  
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({setToken}) => {
   const [email, setEmail] = useState('jana@gmail.com');
   const [password, setPassword] = useState('jana');
   let navigate=useNavigate();
@@ -16,6 +16,7 @@ const Login = () => {
       });
       console.log('Success:', response.data);
       sessionStorage.setItem("token",response.data.token)
+      setToken(response.data.token)
       navigate("/kalendar")
     } catch (error) {
       console.error('Error:', error);

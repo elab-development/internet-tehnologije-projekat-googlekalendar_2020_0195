@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Dodali smo useNavigate
 import axios from 'axios';
 import Dogadjaj from './Dogadjaj';
 import './Calendar.css';
 import useDogadjaji from './useDogadjaji';
+import Modal from './Modal';
 
 const Calendar = () => {
   const [dogadjaji, setDogadjaji] = useDogadjaji();
-
-  // Dohvatanje datuma trenutnog ponedeljka
+ 
+ 
   const monday = new Date();
   monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
 
-  // Kreiranje datuma za svaki dan u tekućoj nedelji
   const daniNedelje = Array.from({ length: 7 }, (_, i) => {
     const dan = new Date(monday);
     dan.setDate(dan.getDate() + i);
@@ -40,27 +41,31 @@ const Calendar = () => {
       return vremeA - vremeB;
     });
   };
+ 
 
   return (
-    <div className="calendar">
-       
-      {daniNedelje.map((dan, index) => {
-        const dogadjajiZaDan = filtrirajDogadjajeZaDatum(dogadjaji, dan);
-        const sortiraniDogadjajiZaDan = sortirajDogadjajePoSatima(dogadjajiZaDan);
-        return (
-          <div key={index} className="day">
-            <div className="header">
-              {dan.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' })}
+    <>
+     
+      <div className="calendar">
+        {daniNedelje.map((dan, index) => {
+          const dogadjajiZaDan = filtrirajDogadjajeZaDatum(dogadjaji, dan);
+          const sortiraniDogadjajiZaDan = sortirajDogadjajePoSatima(dogadjajiZaDan);
+          return (
+            <div key={index} className="day">
+              <div className="header">
+                {dan.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' })}
+              </div>
+              <div className="events">
+                {sortiraniDogadjajiZaDan.map((dogadjaj, dogadjajIndex) => (
+                  <Dogadjaj key={dogadjajIndex} dogadjaj={dogadjaj} />
+                ))}
+              </div>
             </div>
-            <div className="events">
-              {sortiraniDogadjajiZaDan.map((dogadjaj, dogadjajIndex) => (
-                <Dogadjaj key={dogadjajIndex} dogadjaj={dogadjaj} />
-              ))}
-            </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    
+    </>
   );
 };
 
