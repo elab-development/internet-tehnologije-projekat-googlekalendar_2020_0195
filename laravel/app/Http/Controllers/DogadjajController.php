@@ -14,11 +14,11 @@ class DogadjajController extends Controller
         /* remember metoda pokušava da preuzme keširane podatke koristeći ključ 'dogadjaji_cache_key'. 
         Ako podaci nisu dostupni u kešu, izvršava se anonimna funkcija koja vraća sve događaje iz baze. 
         Rezultat ove funkcije se kešira na 60 minuta (60*60 sekundi). */
-        $dogadjaji = Cache::remember('dogadjaji_cache_key', 60*60, function () {
+        $dogadjaji = Cache::remember('dogadjaji_cache_key', 60, function () {
              return Dogadjaj::where('user_id', auth()->id())->get();
         });
     
-        return DogadjajResource::collection($dogadjaji);
+        return DogadjajResource::collection(Dogadjaj::where('user_id', auth()->id())->get());
     }
 
     public function store(Request $request)
