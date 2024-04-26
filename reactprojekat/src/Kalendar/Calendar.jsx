@@ -9,6 +9,7 @@ import Modal from './Modal';
 const Calendar = () => {
   const [dogadjaji, setDogadjaji] = useDogadjaji();
   const [trenutniDatum, setTrenutniDatum] = useState(new Date());
+  const [pretraga, setPretraga] = useState('');
 
   const navigate = useNavigate();
 
@@ -56,16 +57,23 @@ const Calendar = () => {
     setTrenutniDatum(noviDatum);
   };
 
+  const handlePretragaChange = (e) => {
+    setPretraga(e.target.value);
+  };
+
   return (
     <>
       <div className="pagination">
         <button onClick={handlePrethodnaNedelja}>Prethodna nedelja</button>
         <button onClick={handleSledecaNedelja}>Sledeća nedelja</button>
+        <input type="text" placeholder="Pretraži događaje" value={pretraga} onChange={handlePretragaChange} />
       </div>
       <div className="calendar">
         {daniNedelje.map((dan, index) => {
           const dogadjajiZaDan = filtrirajDogadjajeZaDatum(dogadjaji, dan);
-          const sortiraniDogadjajiZaDan = sortirajDogadjajePoSatima(dogadjajiZaDan);
+          const sortiraniDogadjajiZaDan = sortirajDogadjajePoSatima(dogadjajiZaDan.filter(dogadjaj =>
+            dogadjaj.naziv.toLowerCase().includes(pretraga.toLowerCase())
+          ));
           return (
             <div key={index} className="day">
               <div className="header">
