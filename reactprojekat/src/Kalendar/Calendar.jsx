@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Dodali smo useNavigate
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Dogadjaj from './Dogadjaj';
 import './Calendar.css';
@@ -8,9 +8,11 @@ import Modal from './Modal';
 
 const Calendar = () => {
   const [dogadjaji, setDogadjaji] = useDogadjaji();
- 
- 
-  const monday = new Date();
+  const [trenutniDatum, setTrenutniDatum] = useState(new Date());
+
+  const navigate = useNavigate();
+
+  const monday = new Date(trenutniDatum);
   monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
 
   const daniNedelje = Array.from({ length: 7 }, (_, i) => {
@@ -41,11 +43,25 @@ const Calendar = () => {
       return vremeA - vremeB;
     });
   };
- 
+
+  const handlePrethodnaNedelja = () => {
+    const noviDatum = new Date(trenutniDatum);
+    noviDatum.setDate(noviDatum.getDate() - 7);
+    setTrenutniDatum(noviDatum);
+  };
+
+  const handleSledecaNedelja = () => {
+    const noviDatum = new Date(trenutniDatum);
+    noviDatum.setDate(noviDatum.getDate() + 7);
+    setTrenutniDatum(noviDatum);
+  };
 
   return (
     <>
-     
+      <div className="pagination">
+        <button onClick={handlePrethodnaNedelja}>Prethodna nedelja</button>
+        <button onClick={handleSledecaNedelja}>Sledeća nedelja</button>
+      </div>
       <div className="calendar">
         {daniNedelje.map((dan, index) => {
           const dogadjajiZaDan = filtrirajDogadjajeZaDatum(dogadjaji, dan);
@@ -64,7 +80,6 @@ const Calendar = () => {
           );
         })}
       </div>
-    
     </>
   );
 };
