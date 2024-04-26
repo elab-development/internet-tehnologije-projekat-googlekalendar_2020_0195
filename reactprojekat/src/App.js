@@ -5,6 +5,7 @@ import Register from './Login/Register';
 import Navbar from './Nav/Navbar';
 import Calendar from './Kalendar/Calendar';
 import Modal from './Kalendar/Modal';
+import GodisnjiKalendar from './Kalendar/GodisnjiKalendar/GodisnjiKalendar';
 
 function App() {
   const [token,setToken]=useState(null);
@@ -20,6 +21,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/kalendar/godisnji" element={<GodisnjiKalendar />} />
+
           <Route path="/kalendar" element={<Calendar />} />
           <Route path="/dodaj" element={<Modal />} />
         </Routes>

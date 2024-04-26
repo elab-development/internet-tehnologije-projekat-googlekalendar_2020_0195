@@ -1,0 +1,41 @@
+.godisnji-kalendar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mesec {
+    margin-bottom: 20px;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+  }
+  
+  th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  .datum {
+    font-weight: bold;
+  }
+  
+  .praznik {
+    background-color: #ffd700;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-right: 3px;
+    font-size: 12px;
+    display: inline-block;
+  }
+  
