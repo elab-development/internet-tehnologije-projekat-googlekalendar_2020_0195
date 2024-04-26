@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FaCalendar } from "react-icons/fa";
 import './Navbar.css';
 const Navbar = ({token,setToken}) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+ 
   let navigate=useNavigate();
 
 
@@ -12,7 +12,7 @@ const Navbar = ({token,setToken}) => {
     try {
       
       sessionStorage.removeItem('token');
-      setIsLoggedIn(false);
+ 
 
       
       await axios.post('http://127.0.0.1:8000/api/logout', null, {
@@ -45,6 +45,9 @@ const Navbar = ({token,setToken}) => {
           </>
         ) : (
           <>
+           <li>
+            <Link to="/kalendar/godisnji">Verski praznici</Link>
+            </li>
           <li>
             <Link to="/kalendar">Kalendar</Link>
             </li>
