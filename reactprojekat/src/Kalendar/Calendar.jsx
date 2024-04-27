@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react'; 
+
 import Dogadjaj from './Dogadjaj';
 import './Calendar.css';
 import useDogadjaji from './useDogadjaji';
-import Modal from './Modal';
+
 
 const Calendar = () => {
   const [dogadjaji, setDogadjaji] = useDogadjaji();
   const [trenutniDatum, setTrenutniDatum] = useState(new Date());
   const [pretraga, setPretraga] = useState('');
-
-  const navigate = useNavigate();
+ 
 
   const monday = new Date(trenutniDatum);
   monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));

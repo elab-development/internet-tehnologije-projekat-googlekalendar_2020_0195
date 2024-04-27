@@ -62,8 +62,7 @@ const Modal = ( ) => {
             <option value="u_toku">U toku</option>
             <option value="zakazano">Zakazano</option>
           </select>
-          <label htmlFor="kategorija">Kategorija:</label>
-          <input type="text" id="kategorija" name="kategorija" value={formData.kategorija} onChange={handleChange} required />
+         
           <button type="submit">Kreiraj događaj</button>
         </form>
       </div>

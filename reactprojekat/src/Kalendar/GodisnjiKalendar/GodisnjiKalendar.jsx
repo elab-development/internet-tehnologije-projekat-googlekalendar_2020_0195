@@ -64,7 +64,12 @@ const GodisnjiKalendar = () => {
       nedelje.push(nedelja);
     }
     godisnjiKalendar.push({ mesec: mesec + 1, nedelje });
+    console.log(nedelje)
   }
+  console.log(godisnjiKalendar)
+
+
+
 
   return (
     <div className="godisnji-kalendar">

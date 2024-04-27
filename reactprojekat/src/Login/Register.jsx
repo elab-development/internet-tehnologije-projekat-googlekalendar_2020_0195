@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Login.css';  
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [name, setName] = useState('pera');
   const [email, setEmail] = useState('pera@gmail.com');
   const [password, setPassword] = useState('password');
   const [confirmPassword, setConfirmPassword] = useState('password');
-
+  let navigate=useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -18,7 +19,8 @@ const Register = () => {
         password_confirmation: confirmPassword
       });
       console.log('Success:', response.data);
-     sessionStorage.setItem("token",response.data.token)
+      navigate('/login');
+
     } catch (error) {
       console.error('Error:', error);
      
