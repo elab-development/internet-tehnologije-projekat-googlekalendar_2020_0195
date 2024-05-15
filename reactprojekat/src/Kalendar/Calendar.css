@@ -192,3 +192,25 @@
     border-radius: 20px;
   }
   
+  .pastel-blue {
+    background-color: #a8d5e2;
+  }
+  
+  .pastel-green {
+    background-color: #a8e2d0;
+  }
+  
+  .pastel-yellow {
+    background-color: #f7d89c;
+  }
+  
+  .pastel-pink {
+    background-color: #f7a8a8;
+  }
+  
+  .pastel-purple {
+    background-color: #d8a8e2;
+  }
+  .default-class {
+    background-color: #f0f0f0;  
+  }

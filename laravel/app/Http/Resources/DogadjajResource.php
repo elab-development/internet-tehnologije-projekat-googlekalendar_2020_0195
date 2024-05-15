@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Kategorija;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DogadjajResource extends JsonResource
@@ -23,7 +24,7 @@ class DogadjajResource extends JsonResource
             'opis' => $this->opis,
             'status' => $this->status,
             'user' => new UserResource($this->whenLoaded('user')),
-            'kategorija' => new KategorijaResource($this->whenLoaded('kategorija')),
+            'kategorija' => new KategorijaResource(Kategorija::find($this->kategorija_id)),
         ];
     }
 }
