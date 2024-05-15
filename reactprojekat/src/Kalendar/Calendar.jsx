@@ -1,4 +1,3 @@
- 
 import React, { useState } from 'react'; 
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -6,7 +5,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Dogadjaj from './Dogadjaj';
 import './Calendar.css';
 import useDogadjaji from './useDogadjaji';
-import updateDogadjaj from './updateDogadjaj';  
+import updateDogadjaj from './updateDogadjaj';
+import deleteDogadjaj from './deleteDogadjaj';  
 
 export const ItemTypes = {
   DOGADJAJ: 'dogadjaj'
@@ -69,14 +69,16 @@ const Calendar = () => {
     const updatedDogadjaj = {
       ...dogadjaj,
       datum: noviDatum.toISOString().split('T')[0],
-      kategorija_id: dogadjaj.kategorija_id || 1,  
-    
+      kategorija_id: dogadjaj.kategorija_id || 1,
     };
     updateDogadjaj(updatedDogadjaj).then(() => {
       setDogadjaji(prev => prev.map(d => d.id === dogadjaj.id ? updatedDogadjaj : d));
     });
   };
-  
+
+  const handleDeleteDogadjaj = (id) => {
+    setDogadjaji(prev => prev.filter(d => d.id !== id));
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -98,7 +100,7 @@ const Calendar = () => {
               </div>
               <div className="events">
                 {sortiraniDogadjajiZaDan.map((dogadjaj, dogadjajIndex) => (
-                  <Dogadjaj key={dogadjajIndex} dogadjaj={dogadjaj} />
+                  <Dogadjaj key={dogadjajIndex} dogadjaj={dogadjaj} onDelete={handleDeleteDogadjaj} />
                 ))}
               </div>
             </Day>
