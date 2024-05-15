@@ -57,24 +57,29 @@ class DogadjajController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'datum' => 'required|date',
-            'vreme_od' => 'required|date_format:H:i',
-            'vreme_do' => 'required|date_format:H:i|after:vreme_od',
+            'vreme_od' => 'required|date_format:H:i:s',
+            'vreme_do' => 'required|date_format:H:i:s|after:vreme_od',
             'naziv' => 'required|string|max:255',
             'opis' => 'string|nullable',
             'status' => 'required|in:zavrseno,odlozeno,otkazano,u_toku,zakazano',
             'kategorija_id' => 'required|exists:kategorijas,id',
-            'user_id' => 'required|exists:users,id',
+            // 'user_id' => 'required|exists:users,id', // uklonjeno
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
+    
         $dogadjaj = Dogadjaj::findOrFail($id);
-        $dogadjaj->update($validator->validated());
-        Cache::forget('dogadjaji_cache_key'); //nakon azuiranja brisanja i dodavanja dogadjaja cemo brisati kes memoriju kako bi se osvezila prilikom sledeceg ucitavanja podataka
+        $validatedData = $validator->validated();
+        $validatedData['user_id'] = Auth::id(); // Dodajemo ID trenutno ulogovanog korisnika
+    
+        $dogadjaj->update($validatedData);
+        Cache::forget('dogadjaji_cache_key'); // nakon azuiranja brisanja i dodavanja dogadjaja cemo brisati kes memoriju kako bi se osvezila prilikom sledeceg ucitavanja podataka
+    
         return new DogadjajResource($dogadjaj);
     }
+    
 
     public function destroy($id)
     {

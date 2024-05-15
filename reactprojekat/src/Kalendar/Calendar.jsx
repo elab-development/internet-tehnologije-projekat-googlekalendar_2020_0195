@@ -1,16 +1,22 @@
+ 
 import React, { useState } from 'react'; 
+import { useDrag, useDrop, DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import Dogadjaj from './Dogadjaj';
 import './Calendar.css';
 import useDogadjaji from './useDogadjaji';
+import updateDogadjaj from './updateDogadjaj';  
 
+export const ItemTypes = {
+  DOGADJAJ: 'dogadjaj'
+};
 
 const Calendar = () => {
   const [dogadjaji, setDogadjaji] = useDogadjaji();
   const [trenutniDatum, setTrenutniDatum] = useState(new Date());
   const [pretraga, setPretraga] = useState('');
  
-
   const monday = new Date(trenutniDatum);
   monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
 
@@ -59,8 +65,21 @@ const Calendar = () => {
     setPretraga(e.target.value);
   };
 
+  const moveDogadjaj = (dogadjaj, noviDatum) => {
+    const updatedDogadjaj = {
+      ...dogadjaj,
+      datum: noviDatum.toISOString().split('T')[0],
+      kategorija_id: dogadjaj.kategorija_id || 1,  
+    
+    };
+    updateDogadjaj(updatedDogadjaj).then(() => {
+      setDogadjaji(prev => prev.map(d => d.id === dogadjaj.id ? updatedDogadjaj : d));
+    });
+  };
+  
+
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
       <div className="pagination">
         <button onClick={handlePrethodnaNedelja}>Prethodna nedelja</button>
         <button onClick={handleSledecaNedelja}>Sledeća nedelja</button>
@@ -73,7 +92,7 @@ const Calendar = () => {
             dogadjaj.naziv.toLowerCase().includes(pretraga.toLowerCase())
           ));
           return (
-            <div key={index} className="day">
+            <Day key={index} dan={dan} moveDogadjaj={moveDogadjaj}>
               <div className="header">
                 {dan.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' })}
               </div>
@@ -82,11 +101,27 @@ const Calendar = () => {
                   <Dogadjaj key={dogadjajIndex} dogadjaj={dogadjaj} />
                 ))}
               </div>
-            </div>
+            </Day>
           );
         })}
       </div>
-    </>
+    </DndProvider>
+  );
+};
+
+const Day = ({ dan, moveDogadjaj, children }) => {
+  const [{ isOver }, drop] = useDrop({
+    accept: ItemTypes.DOGADJAJ,
+    drop: (item) => moveDogadjaj(item.dogadjaj, dan),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
+  return (
+    <div ref={drop} className={`day ${isOver ? 'over' : ''}`}>
+      {children}
+    </div>
   );
 };
 
