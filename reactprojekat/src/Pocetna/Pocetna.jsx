@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';  
 import './Pocetna.css';
+import ImageSlider from './ImageSlider';
+ 
 
 const Pocetna = () => {
   const navigate = useNavigate(); // Koristimo useNavigate hook za navigaciju u URL
@@ -22,6 +24,10 @@ const Pocetna = () => {
         <button className="login-button" onClick={handleLoginClick}>Ulogujte se</button>
         <button className="register-button" onClick={handleRegisterClick}>Registrujte se</button>
       </div>
+      <div className="slider-container">
+        <ImageSlider /> {/* Dodavanje slider komponente */}
+      </div>
+
     </div>
   );
 };

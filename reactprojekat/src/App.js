@@ -7,6 +7,8 @@ import Calendar from './Kalendar/Calendar';
 import Modal from './Kalendar/Modal';
 import GodisnjiKalendar from './Kalendar/GodisnjiKalendar/GodisnjiKalendar';
 import Pocetna from './Pocetna/Pocetna';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function App() {
   const [token,setToken]=useState(null);

@@ -22,4 +22,15 @@
   .register-button:hover {
     background-color: #0056b3;
   }
+  .image-slider {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .slider-image {
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+    margin-left: 10%;
+  }
   
