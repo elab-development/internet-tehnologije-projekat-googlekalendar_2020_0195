@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DogadjajResource;
 use App\Models\Dogadjaj;
+use App\Models\Kategorija;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -113,5 +114,10 @@ class DogadjajController extends Controller
 
         return DogadjajResource::collection($dogadjaji);
     }
-
+    // Nova metoda za vraćanje broja događaja po kategoriji
+    public function admin()
+    {
+        $kategorije = Kategorija::withCount('dogadjaji')->get();
+        return response()->json($kategorije);
+    }
 }

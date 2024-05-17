@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 import './Admin.css';
+
+// Registracija potrebnih elemenata
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Admin = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categoryData, setCategoryData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -24,7 +30,34 @@ const Admin = () => {
       }
     };
 
+    const fetchCategoryData = async () => {
+      try {
+        const token = sessionStorage.getItem('token');
+        const response = await axios.get('http://127.0.0.1:8000/api/admin/dogadjaji', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const categories = response.data.map(category => category.naziv);
+        const counts = response.data.map(category => category.dogadjaji_count);
+
+        setCategoryData({
+          labels: categories,
+          datasets: [
+            {
+              label: 'Number of Events',
+              data: counts,
+              backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            },
+          ],
+        });
+      } catch (error) {
+        console.error('Failed to fetch category data', error);
+      }
+    };
+
     fetchUsers();
+    fetchCategoryData();
   }, []);
 
   const makeAdmin = async (userId) => {
@@ -53,6 +86,9 @@ const Admin = () => {
   return (
     <div className="admin-container">
       <h1>Users</h1>
+      <div className="chart-container">
+        <Bar data={categoryData} />
+      </div>
       <table className="users-table">
         <thead>
           <tr>

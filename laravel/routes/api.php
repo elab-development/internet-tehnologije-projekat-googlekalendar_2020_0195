@@ -36,4 +36,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('kategorije', KategorijaController::class);
     Route::get('/users', [AuthController::class, 'getAllUsers']);
     Route::post('/users/{id}/make-admin', [AuthController::class, 'makeAdmin']);
+
+    Route::get('/admin/dogadjaji', [DogadjajController::class, 'admin']);
 });
