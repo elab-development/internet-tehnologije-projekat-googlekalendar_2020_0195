@@ -1,6 +1,8 @@
 import React, { useState } from 'react'; 
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 import Dogadjaj from './Dogadjaj';
 import './Calendar.css';
@@ -80,14 +82,39 @@ const Calendar = () => {
     setDogadjaji(prev => prev.filter(d => d.id !== id));
   };
 
+  const handleDownloadPDF = async () => {
+    const input = document.getElementById('pdf-content');
+    const canvas = await html2canvas(input);
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('landscape', 'mm', 'a4');
+    const imgWidth = 297;
+    const pageHeight = 210;
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+    const heightLeft = imgHeight;
+
+    let position = 0;
+
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    position = heightLeft - pageHeight;
+
+    while (position >= 0) {
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      position -= pageHeight;
+    }
+
+    pdf.save('raspored.pdf');
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="pagination">
         <button onClick={handlePrethodnaNedelja}>Prethodna nedelja</button>
         <button onClick={handleSledecaNedelja}>Sledeća nedelja</button>
         <input type="text" placeholder="Pretraži događaje" value={pretraga} onChange={handlePretragaChange} />
+        <button onClick={handleDownloadPDF}>Preuzmi PDF</button> {/* Dodato dugme za preuzimanje PDF-a */}
       </div>
-      <div className="calendar">
+      <div className="calendar" id="pdf-content"> {/* Dodato id za sadržaj koji će se pretvoriti u PDF */}
         {daniNedelje.map((dan, index) => {
           const dogadjajiZaDan = filtrirajDogadjajeZaDatum(dogadjaji, dan);
           const sortiraniDogadjajiZaDan = sortirajDogadjajePoSatima(dogadjajiZaDan.filter(dogadjaj =>
