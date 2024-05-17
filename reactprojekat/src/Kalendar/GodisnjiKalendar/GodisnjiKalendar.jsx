@@ -9,17 +9,30 @@ const GodisnjiKalendar = () => {
 
   useEffect(() => {
     const fetchHolidays = async () => {
+      const cachedHolidays = localStorage.getItem('praznici');
+      const currentYear = new Date().getFullYear();
+      
+      if (cachedHolidays) {
+        const parsedHolidays = JSON.parse(cachedHolidays);
+        if (parsedHolidays.year === currentYear) {
+          setPraznici(parsedHolidays.data);
+          setLoading(false);
+          return;
+        }
+      }
+
       try {
         const response = await axios.get('https://api.api-ninjas.com/v1/holidays', {
           params: {
             country: 'RS', // Kod za Srbiju
-            year: new Date().getFullYear(), // Trenutna godina
+            year: currentYear, // Trenutna godina
           },
           headers: {
-            'X-Api-Key': 'wldJVqp8aBoYHEhst6oQmXwRKc0gM0Dh7yXYkcge', 
+            'X-Api-Key': '181QjUpNRZQGa5oA0ZA6PCeyG6U12QLvnh2D5sDW', 
           },
         });
         setPraznici(response.data);
+        localStorage.setItem('praznici', JSON.stringify({ year: currentYear, data: response.data }));
         setLoading(false);
       } catch (error) {
         console.error('Greška prilikom dohvatanja praznika:', error);
@@ -64,12 +77,7 @@ const GodisnjiKalendar = () => {
       nedelje.push(nedelja);
     }
     godisnjiKalendar.push({ mesec: mesec + 1, nedelje });
-    console.log(nedelje)
   }
-  console.log(godisnjiKalendar)
-
-
-
 
   return (
     <div className="godisnji-kalendar">

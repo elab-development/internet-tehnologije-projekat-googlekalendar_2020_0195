@@ -26,9 +26,9 @@ function App() {
 
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/kalendar/godisnji" element={<GodisnjiKalendar />} />
+          <Route path="/kalendar/godisnji" element={<GodisnjiKalendar />} />  {/* dodato kesiranje */}
 
-          <Route path="/kalendar" element={<Calendar />} />
+          <Route path="/kalendar" element={<Calendar />} /> {/* dodat pdf generisanje, kategorije dogadjaja, prevlacenje dogadjaja */}
           <Route path="/dodaj" element={<Modal />} />
         </Routes>
       </div>
