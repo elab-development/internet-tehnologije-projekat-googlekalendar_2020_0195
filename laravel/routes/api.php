@@ -34,4 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/reminders/{id}', [ReminderController::class, 'update']);
     Route::delete('/reminders/{id}', [ReminderController::class, 'destroy']);
     Route::apiResource('kategorije', KategorijaController::class);
+    Route::get('/users', [AuthController::class, 'getAllUsers']);
+    Route::post('/users/{id}/make-admin', [AuthController::class, 'makeAdmin']);
 });

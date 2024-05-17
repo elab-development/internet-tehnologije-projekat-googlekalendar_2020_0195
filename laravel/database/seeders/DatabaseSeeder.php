@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Jana',
             'email' => 'jana@gmail.com',
             'password' => bcrypt('jana'), // Enkriptovanje lozinke
+            'admin' =>1
         ]);
 
         User::create([

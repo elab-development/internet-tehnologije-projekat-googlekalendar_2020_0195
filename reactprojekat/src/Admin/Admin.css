@@ -1,0 +1,34 @@
+.admin-container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .users-table th,
+  .users-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .users-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .users-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .users-table tr:hover {
+    background-color: #ddd;
+  }
+  

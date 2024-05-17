@@ -61,4 +61,28 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'Successfully logged out']);
     }
+
+
+
+    // Dodata metoda za vraćanje svih korisnika
+    public function getAllUsers()
+    {
+        $users = User::all();
+        return UserResource::collection($users);
+    }
+    // Dodata metoda za postavljanje kolone admin na 1 za određenog korisnika
+    public function makeAdmin($id)
+    {
+        $currentUser = Auth::user();
+        if (!$currentUser->admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $user = User::findOrFail($id);
+        $user->admin = 1;
+        $user->save();
+
+        return response()->json(['message' => 'User is now an admin']);
+    }
+
 }

@@ -9,6 +9,7 @@ import GodisnjiKalendar from './Kalendar/GodisnjiKalendar/GodisnjiKalendar';
 import Pocetna from './Pocetna/Pocetna';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Admin from './Admin/Admin';
 
 function App() {
   const [token,setToken]=useState(null);
@@ -29,6 +30,9 @@ function App() {
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/kalendar/godisnji" element={<GodisnjiKalendar />} />  {/* dodato kesiranje */}
+
+
+          <Route path="/admin" element={<Admin />} />
 
           <Route path="/kalendar" element={<Calendar />} /> {/* dodat pdf generisanje, kategorije dogadjaja, prevlacenje dogadjaja */}
           <Route path="/dodaj" element={<Modal />} />

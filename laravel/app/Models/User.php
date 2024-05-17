@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'admin'  //1 ili 0 ako jeste ili nije admin
     ];
     public function dogadjaji()
     {

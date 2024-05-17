@@ -11,7 +11,7 @@ const Navbar = ({token,setToken}) => {
   const handleLogout = async () => {
     try {
       
-      sessionStorage.removeItem('token');
+     
  
 
       
@@ -22,6 +22,7 @@ const Navbar = ({token,setToken}) => {
       });
       navigate('/login')
       setToken(null)
+      sessionStorage.removeItem('token');
     } catch (error) {
       console.error('Error:', error);
      

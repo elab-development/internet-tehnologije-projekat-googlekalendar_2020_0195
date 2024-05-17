@@ -16,10 +16,16 @@ const Login = ({setToken}) => {
         email,
         password
       });
-      console.log('Success:', response.data);
+      console.log('Success:', response.data.token);
       sessionStorage.setItem("token",response.data.token)
+      sessionStorage.setItem("admin",response.data.user.admin)
+
       setToken(response.data.token)
-      navigate("/kalendar")
+      if(response.data.user.admin==1)
+        navigate('/admin')
+      else{
+        navigate("/kalendar")
+      }
     } catch (error) {
       console.error('Error:', error);
      

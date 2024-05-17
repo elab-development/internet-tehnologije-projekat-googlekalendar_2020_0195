@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'language' => $this->language,
             'calendar_color_theme' => $this->calendar_color_theme,
             'start_week_on' => $this->start_week_on,
+            'admin' => $this->admin,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             
